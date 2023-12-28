@@ -1,5 +1,6 @@
 using Discord;
 using Discord.WebSocket;
+using Mueller.Bot.Logic;
 
 namespace Mueller.Bot;
 
@@ -13,9 +14,12 @@ public class DiscordBot
     {
         MinimalLogger.Log("Bot is ready.");
         
+        MinimalLogger.Log("Run Clearer...");
+        new Task(GameClearer.RunClearer).Start();
+        
         //TODO run the CreateGlobalApplicationCommandAsync() once for each command.
         //TODO maybe just write the latest used version to file and only register und update
-        
+        MinimalLogger.Log("Register Slash-Commands...");
         try
         {
             var playCommand = PlayCommand.BuildCommand();
