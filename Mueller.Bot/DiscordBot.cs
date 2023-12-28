@@ -13,6 +13,9 @@ public class DiscordBot
     private async Task OnReady()
     {
         MinimalLogger.Log("Bot is ready.");
+        PlayCommand.SocketClient = _client;
+        _client.SlashCommandExecuted += PlayCommand.RunCommand;
+        _client.ButtonExecuted += PlayCommand.HandleComponent;
         
         MinimalLogger.Log("Run Clearer...");
         new Task(GameClearer.RunClearer).Start();
@@ -36,8 +39,6 @@ public class DiscordBot
         {
             Console.WriteLine("Error while creating slash command: " + exception);
         }
-
-        _client.SlashCommandExecuted += PlayCommand.RunCommand;
     }
     
     public async Task StartBotAsync()
